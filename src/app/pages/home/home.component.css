@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  .header {
+    background-color: #ccff99;
+    padding: 10px;
+    text-align: end;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #99ff66;
+    padding: 10px 15px;
+  }
+  .controls select,
+  .controls input {
+    font-size: 16px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .controls select {
+    width: 140px;
+  }
+  .controls input[type="date"] {
+    width: 160px;
+  }
+  .controls span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 8px;
+  }
+  .map-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+  }
+  .legend-button {
+    position: fixed;
+    top: 115px;
+    left: 10px;
+    background: #99ff66;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  .legend {
+    position: fixed;
+    top: 115px;
+    right: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .legend p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .legend .marker {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .green {
+    background-color: green;
+  }
+  .yellow {
+    background-color: yellow;
+  }
+  .red {
+    background-color: red;
+  }
+  

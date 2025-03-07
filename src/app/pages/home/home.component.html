@@ -1,0 +1,31 @@
+<div class="header">
+    <a routerLink="/">หน้าหลัก</a>
+    <a routerLink="/model">หน้าพยากรณ์</a>
+  </div>
+  
+  <div class="controls">
+    <select>
+      <option>จังหวัด</option>
+    </select>
+    <input type="date" value="2017-01-01" />
+    <span>ถึง</span>
+    <input type="date" value="2022-01-01" />
+    <span>แสดงข้อมูลเป็น</span>
+    <select>
+      <option>รายปี</option>
+    </select>
+  </div>
+  
+  <div class="map-container">
+    <div class="legend-button" (click)="toggleLegend()">แสดงสัญลักษณ์สี</div>
+    <div id="map" style="height: 680px"></div>
+    
+    <div class="legend-container">
+      <div class="legend" *ngIf="legendVisible">
+        <p><span class="marker green"></span> <span class="legend-text">ผลผลิตมาก</span></p>
+        <p><span class="marker yellow"></span> <span class="legend-text">ผลผลิตปานกลาง</span></p>
+        <p><span class="marker red"></span> <span class="legend-text">ผลผลิตน้อย</span></p>
+      </div>
+    </div>
+  </div>
+  

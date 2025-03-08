@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    background-color: #ccff99;
+    padding: 10px;
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .header a {
+    text-decoration: none;
+    color: black;
+    margin: 0 20px;
+  }
+  
+  .namepage {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 38px;
+    font-weight: bold;
+  }
+  
+  .container {
+    background-color: #99ff66;
+    display: flex;
+    width: auto;
+    height: auto;
+    padding: 30px;
+  }
+  
+  .left-panel {
+    width: 40%;
+    padding: 10px;
+  }
+  
+  .center-panel {
+    width: 20%;
+    padding: 20px;
+    background-color: #e6ffe6;
+    border-radius: 10px;
+  }
+  
+  .right-panel {
+    width: 40%;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .upload-box {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .button {
+    background-color: #ffcc00;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-radius: 10px;
+  }
+  
+  .button-container {
+    background-color: #99ff66;
+    display: flex;
+    justify-content: center;
+    margin-bottom: auto;
+  }
+  
+  .download img {
+    margin-left: 5px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 50%;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  select:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 5px rgba(255, 204, 0, 0.8);
+  }
+  
+  option {
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  select option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  select:active {
+    background-color: #e6ffe6;
+  }
+  

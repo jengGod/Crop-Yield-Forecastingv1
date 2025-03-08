@@ -1,0 +1,62 @@
+<div class="header">
+    <a href="/">หน้าหลัก</a>
+    <a href="/forecast">หน้าพยากรณ์</a>
+</div>
+
+<div class="namepage">พยากรณ์ผลผลิต</div>
+
+<div class="container">
+
+    <div class="left-panel">
+        <label>Model</label>
+        <select>
+            <option>Random Forest</option>
+            <option>SVM</option>
+            <option>LSTM</option>
+        </select>
+        <br><br>
+        <label>เลือกช่วงเวลา</label>
+        <select>
+            <option>รายปี</option>
+            <option>รายเดือน</option>
+        </select>
+        <br><br>
+        <label>ผลผลิตข้าว</label>
+        <select>
+            <option>นาปี</option>
+            <option>นาปรัง</option>
+        </select>
+        <br><br>
+        <label>ช่วงเวลาข้อมูลที่ใช้ในการพยากรณ์</label>
+        <br>
+        Start date:
+        <br>
+        <input type="date" value="2017-01-01">
+        <br>
+        End date:
+        <br>
+        <input type="date" value="2022-12-31">
+    </div>
+
+    <div class="center-panel">
+        <div class="upload-box">
+            <input type="file" (change)="onFileSelected($event)">
+            <p *ngIf="uploadedFile">{{ uploadedFile?.name }}</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="download">
+            <button class="button">
+                ตัวอย่างไฟล์รูปแบบที่กำหนด
+                <img src="https://cdn4.iconfinder.com/data/icons/music-ui-solid-24px/24/download_save_arrow-3-512.png"
+                    alt="Download Icon">
+            </button>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button type="button" class="button" (click)="submitForm()">พยากรณ์ผลผลิต</button>
+    </div>
+
+</div>

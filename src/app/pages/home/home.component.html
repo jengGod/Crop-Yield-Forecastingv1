@@ -1,11 +1,12 @@
 <div class="header">
-    <a href="/">หน้าหลัก</a>
-    <a href="/forecast">หน้าพยากรณ์</a>
+  <button (click)="home('/')"[ngClass]="{'active': currentRoute === '/'}">หน้าหลัก</button>
+  <button (click)="forecast('/forecast')"[ngClass]="{'active': currentRoute === '/forecast'}">หน้าพยากรณ์</button>
   </div>
   
   <div class="controls">
-    <select>
-      <option>จังหวัด</option>
+    <select formControlName="province">
+      <option value="">เลือกจังหวัด</option>
+      <option *ngFor="let province of dropdownprovinces" [value]="province">{{ province }}</option>
     </select>
     <input type="date" value="2017-01-01" />
     <span>ถึง</span>

@@ -1,6 +1,10 @@
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
 <div class="header">
-    <a href="/">หน้าหลัก</a>
-    <a href="/forecast">หน้าพยากรณ์</a>
+    <button (click)="home('/')">หน้าหลัก</button>
+    <button (click)="forecast('/forecast')">หน้าพยากรณ์</button>
 </div>
 
 <div class="namepage">พยากรณ์ผลผลิต</div>
@@ -39,11 +43,31 @@
     </div>
 
     <div class="center-panel">
-        <div class="upload-box">
-            <input type="file" (change)="onFileSelected($event)">
-            <p *ngIf="uploadedFile">{{ uploadedFile?.name }}</p>
+        <!-- ซ่อนส่วนอัปโหลดเมื่อมีไฟล์แล้ว -->
+        <div class="upload-box" *ngIf="!uploadedFile">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <div>วางไฟล์ที่นี่ (.xls, .csv)</div>
+            <br>
+            <button class="browse-btn">
+                BROWSE FILES
+                <input #fileInput type="file" (change)="onFileSelected($event)" accept=".xls,.xlsx,.csv"/>
+            </button>
+        </div>
+        <!-- แสดงคอลัมน์และข้อมูลจากไฟล์ -->
+        <div *ngIf="fileColumns.length > 0">
+            <h3>ข้อมูลในไฟล์:</h3>
+            <table border="1">
+                <tr>
+                    <th *ngFor="let column of fileColumns">{{ column }}</th>
+                </tr>
+                <tr *ngFor="let row of fileRows">
+                    <td *ngFor="let cell of row">{{ cell }}</td>
+                </tr>
+            </table>
         </div>
     </div>
+    
+
 
     <div class="right-panel">
         <div class="download">
@@ -53,7 +77,26 @@
                     alt="Download Icon">
             </button>
         </div>
+
+        <!-- ส่วนแสดงไฟล์ที่อัปโหลด -->
+        <!-- Card แสดงไฟล์ที่อัปโหลด -->
+        <div *ngIf="uploadedFile" class="uploaded-file-card">
+            <div class="file-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="XLS File" />
+            </div>
+            <div class="file-info">
+                <p>{{ uploadedFile.name }}</p>
+                <p class="file-train-test">Train : Test</p>
+                <div class="progress-bar">
+                    <div class="progress-train" [style.width.%]="80"></div>
+                    <div class="progress-test" [style.width.%]="20"></div>
+                </div>
+            </div>
+            <button class="remove-btn" (click)="removeFile()">✖</button>
+        </div>
+
     </div>
+
 
     <div class="button-container">
         <button type="button" class="button" (click)="submitForm()">พยากรณ์ผลผลิต</button>

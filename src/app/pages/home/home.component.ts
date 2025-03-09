@@ -1,17 +1,9 @@
 import {Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
 
 import { Router, RouterOutlet } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 
-import { NgForm } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-
-import { HttpClient, } from '@angular/common/http';
 @Component({
   selector: 'app-home',
   imports: [CommonModule, ],
@@ -19,9 +11,25 @@ import { HttpClient, } from '@angular/common/http';
   styleUrl: './home.component.css'
 })
 export class HomeComponent  implements OnInit{
+  constructor(private router: Router) {
+    }
+forecast(arg0: string) {
+ this.router.navigateByUrl('forecast');
+}
+home(arg0: string) {
+  this.router.navigateByUrl('');
+}
+
   map!: L.Map; // ตัวแปรสำหรับเก็บแผนที่
   legendVisible: boolean = false;
-
+  currentRoute: string = '';
+  
+  dropdownprovinces: string[] = [
+    'กาฬสินธุ์', 'ขอนแก่น', 'ชัยภูมิ', 'นครพนม', 'นครราชสีมา',
+    'บึงกาฬ', 'บุรีรัมย์', 'มหาสารคาม', 'มุกดาหาร', 'ยโสธร',
+    'ร้อยเอ็ด', 'ศรีสะเกษ', 'สกลนคร', 'สุรินทร์', 'หนองคาย',
+    'หนองบัวลำภู','เลย', 'อำนาจเจริญ', 'อุดรธานี', 'อุบลราชธานี'
+  ];
   provinces = [
     { name: 'ขอนแก่น', lat: 16.42, lng: 102.83 },
     { name: 'นครราชสีมา', lat: 14.97, lng: 102.1 },
@@ -47,6 +55,11 @@ export class HomeComponent  implements OnInit{
 
   ngOnInit(): void {
     this.initMap();
+    this.currentRoute = this.router.url;
+
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url;
+    });
   }
 
   private initMap(): void {

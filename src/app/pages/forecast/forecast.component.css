@@ -66,7 +66,7 @@ body {
     width: 300px; 
     max-width: 100%;
     text-align: center;
-    padding: 20px;
+    padding: 1px;
     cursor: pointer;
     margin: auto;
     display: flex;
@@ -90,10 +90,10 @@ body {
   
   .browse-btn input[type="file"] {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 150px;
+    left: 380px;
     opacity: 0;
-    width: 50%;
+    width: 25%;
     height: 50%;
     cursor: pointer;
     
@@ -112,7 +112,7 @@ body {
   
   .button {
     background-color: #ffcc00;
-    padding: 10px;
+   
     border: none;
     text-align: center;
     cursor: pointer;
@@ -219,6 +219,21 @@ body {
     position: absolute;
     right: 10px;
     top: 10px;
+}
+.table-responsive {
+  font-size: 14px; /* ลดขนาดตัวอักษรทั้งหมด */
+}
+
+.table th, 
+.table td {
+  font-size: 11px; /* ลดขนาดตัวอักษรของเซลล์ตาราง */
+  padding: 2px; /* ลดระยะห่างข้างในเซลล์ */
+  text-align: center; /* จัดให้อยู่ตรงกลาง */
+}
+
+.table th {
+  background-color: #46b749; /* เพิ่มสีพื้นหลังให้หัวตาราง */
+  color: white;
 }
 
   

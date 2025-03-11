@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { ChunkPipe } from '../chunk.pipe';
 @Component({
   selector: 'app-forecast',
-  imports: [CommonModule],
+  imports: [CommonModule,ChunkPipe],
   templateUrl: './forecast.component.html',
   styleUrl: './forecast.component.css'
 })
@@ -42,52 +43,53 @@ home(arg0: string) {
     });
    }
 
-  onFileSelected(event: Event) {
+   onFileSelected(event: Event) {
     const target = event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       this.uploadedFile = target.files[0];
       console.log('📂 อัปโหลดไฟล์:', this.uploadedFile.name);
-
+  
       const allowedTypes = [
         'application/vnd.ms-excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'text/csv'
       ];
-
+  
       if (!allowedTypes.includes(this.uploadedFile.type)) {
         alert('กรุณาเลือกไฟล์ที่เป็น .xls, .xlsx หรือ .csv เท่านั้น');
         this.uploadedFile = undefined;
         target.value = '';
         return;
       }
-
+  
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const data = new Uint8Array(e.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
-
+  
         const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
-
-        const jsonData: any[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-        if (jsonData.length > 0 && Array.isArray(jsonData[0])) {
-          this.fileColumns = jsonData[0].map(String);
+  
+        // ✅ แปลงข้อมูลให้ดึงมาทั้งหมด รวมถึงข้อมูลแถว
+        const jsonData: any[] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+  
+        if (jsonData.length > 0) {
+          this.fileColumns = jsonData[0].map(String); // หัวตาราง (Columns)
+          this.fileRows = jsonData.slice(1); // ข้อมูลทั้งหมด (Rows)
         } else {
           this.fileColumns = [];
+          this.fileRows = [];
         }
-
-        this.fileRows = jsonData.length > 1 ? jsonData.slice(1, 6) : [];
-
+  
         console.log('📊 คอลัมน์:', this.fileColumns);
-        console.log('📄 ข้อมูล:', this.fileRows);
+        console.log('📄 ข้อมูลทั้งหมด:', this.fileRows);
+        this.cd.detectChanges(); //  บังคับให้ UI อัปเดต
       };
-
+  
       reader.readAsArrayBuffer(this.uploadedFile);
-      this.cd.detectChanges(); // ✅ บังคับให้ UI อัปเดต
     }
   }
-
+  
   removeFile() {
     console.log('❌ ลบไฟล์:', this.uploadedFile?.name);
     this.uploadedFile = undefined;

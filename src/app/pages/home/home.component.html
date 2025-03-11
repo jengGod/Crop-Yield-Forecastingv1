@@ -3,11 +3,13 @@
   <button (click)="forecast('/forecast')"[ngClass]="{'active': currentRoute === '/forecast'}">หน้าพยากรณ์</button>
   </div>
   
-  <div class="controls">
-    <select formControlName="province">
+  <div class="controls"[formGroup]="form">
+    <select [formControlName]="'province'">
       <option value="">เลือกจังหวัด</option>
-      <option *ngFor="let province of dropdownprovinces" [value]="province">{{ province }}</option>
-    </select>
+      <option *ngFor="let province of dropdownprovinces" [value]="province">
+        {{ province }}
+      </option>
+    </select>  
     <input type="date" value="2017-01-01" />
     <span>ถึง</span>
     <input type="date" value="2022-01-01" />
@@ -28,5 +30,36 @@
         <p><span class="marker red"></span> <span class="legend-text">ผลผลิตน้อย</span></p>
       </div>
     </div>
+    <div class="sidebar">
+     
+      <div class="dropdown">
+        <button (click)="toggleDropdown('soil')">สภาพดิน ▾</button>
+        <div class="dropdown-menu" *ngIf="dropdowns['soil']"> 
+          <label *ngFor="let option of soilOptions">
+            <input type="checkbox" [(ngModel)]="selectedSoil[option]"> {{ option }}
+          </label>
+        </div>
+      </div>
+    
+      <!-- Dropdown สภาพอากาศ --> 
+       <div class="dropdown">
+        <button (click)="toggleDropdown('weather')">สภาพอากาศ ▾</button>
+        <div class="dropdown-menu" *ngIf="dropdowns['weather']"> 
+          <label *ngFor="let option of weatherOptions">
+            <input type="checkbox" [(ngModel)]="selectedWeather[option]"> {{ option }}
+          </label>
+        </div>
+      </div> 
+    
+       <div class="dropdown">
+        <button (click)="toggleDropdown('rice')">ผลผลิตข้าว ▾</button>
+        <div class="dropdown-menu" *ngIf="dropdowns['rice']"> 
+          <label *ngFor="let option of riceOptions">
+            <input type="checkbox" [(ngModel)]="selectedRice[option]"> {{ option }}
+          </label>
+        </div>
+      </div>
+    </div> 
+    
   </div>
   

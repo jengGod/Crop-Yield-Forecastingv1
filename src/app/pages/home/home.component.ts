@@ -1,26 +1,64 @@
 import {Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
 
 import { Router, RouterOutlet } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-
-import { NgForm } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-
-import { HttpClient, } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ],
+  standalone: true,
+  imports: [CommonModule ,FormsModule,ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent  implements OnInit{
+  form: FormGroup;
+  provinceLocations!: { [key: string]: [number, number] };
+  toggleDropdown(type: keyof typeof this.dropdowns) {
+    this.dropdowns[type] = !this.dropdowns[type];  
+  }
+  
+  constructor(private router: Router) {
+    this.form = new FormGroup({
+      province: new FormControl('', { nonNullable: true }) // ✅ ป้องกัน null ได้เลย
+    });
+    }
+forecast(arg0: string) {
+ this.router.navigateByUrl('forecast');
+}
+home(arg0: string) {
+  this.router.navigateByUrl('');
+}
+
   map!: L.Map; // ตัวแปรสำหรับเก็บแผนที่
+  markersLayer: any;
   legendVisible: boolean = false;
+  currentRoute: string = '';
+
+  dropdownprovinces: string[] = [
+    'กาฬสินธุ์', 'ขอนแก่น', 'ชัยภูมิ', 'นครพนม', 'นครราชสีมา',
+    'บึงกาฬ', 'บุรีรัมย์', 'มหาสารคาม', 'มุกดาหาร', 'ยโสธร',
+    'ร้อยเอ็ด', 'ศรีสะเกษ', 'สกลนคร', 'สุรินทร์', 'หนองคาย',
+    'หนองบัวลำภู','เลย', 'อำนาจเจริญ', 'อุดรธานี', 'อุบลราชธานี'
+  ];
+  dropdowns: Record<string, boolean> = {
+    soil: false,
+    weather: false,
+    rice: false
+  };
+
+  // ตัวเลือกของแต่ละกลุ่ม
+  soilOptions = ['ความชื้นในดิน', 'ค่า PH ของดิน', 'ชนิดของดิน'];
+  weatherOptions = ['NDVI', 'ปริมาณน้ำฝน', 'อุณหภูมิสูงสุด/ต่ำสุด', 'ความชื้นสัมพัทธ์'];
+  riceOptions = ['ข้าวนาปี', 'ข้าวนาปรัง'];
+
+  // เก็บค่าที่เลือก
+  selectedSoil: { [key: string]: boolean } = {};
+  selectedWeather: { [key: string]: boolean } = {};
+  selectedRice: { [key: string]: boolean } = {};
+
 
   provinces = [
     { name: 'ขอนแก่น', lat: 16.42, lng: 102.83 },
@@ -46,31 +84,114 @@ export class HomeComponent  implements OnInit{
   ];
 
   ngOnInit(): void {
-    this.initMap();
-  }
+    this.provinceLocations = this.provinces?.reduce((acc, p) => {
+      if (p.name && p.lat && p.lng) {
+        acc[p.name] = [p.lat, p.lng];
+      }
+      return acc;
+    }, {} as { [key: string]: [number, number] });
+   this.initMap();
+    this.currentRoute = this.router.url;
 
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url;
+    });
+    this.form.get('province')?.valueChanges.subscribe(province => {
+      this.updateMap(province);
+    });
+    
+  }
+  updateMap(province: string) {
+    if (!this.map) return;
+  
+    // ตรวจสอบว่า markersLayer ถูกกำหนดหรือไม่
+    if (!this.markersLayer) {
+      this.markersLayer = L.layerGroup().addTo(this.map);
+    }
+  
+    // ลบหมุดเก่าทั้งหมด
+    this.markersLayer.clearLayers();
+  
+    // ตรวจสอบว่ามีข้อมูล lat, lng ของจังหวัดที่เลือกหรือไม่
+    if (this.provinceLocations && this.provinceLocations[province]) { 
+      const [lat, lng] = this.provinceLocations[province]; 
+      const marker = L.marker([lat, lng]).addTo(this.markersLayer);
+      this.map.setView([lat, lng], 8);
+    }
+  }
+  
+  
   private initMap(): void {
+    if (this.map) {
+      this.map.remove(); // ป้องกันการสร้างแผนที่ซ้ำซ้อน
+    }
+  
     this.map = L.map('map', {
       center: [16.0, 103.0],
       zoom: 7,
       zoomControl: false
     });
-
+  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
     }).addTo(this.map);
-
+  
     L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
-    // ไอคอน Marker ตามระดับผลผลิต
+  
+    // ใช้ LayerGroup สำหรับจัดการ Marker
+    this.markersLayer = L.layerGroup().addTo(this.map);
+  
     const blueIcon = L.icon({
-      iconUrl: 'assets/gps_blue.png', 
+      iconUrl: 'assets/gps_blue.png',
       iconSize: [30, 45],
       iconAnchor: [15, 45],
       popupAnchor: [1, -34]
     });
+  
     this.provinces.forEach(province => {
       L.marker([province.lat, province.lng], { icon: blueIcon })
-        .addTo(this.map)
+        .addTo(this.markersLayer)
+        .bindPopup(province.name);
+    });
+  }
+  updateMarkers(province: string) {
+    if (!this.map) return;
+  
+    // ลบหมุดเก่าทั้งหมด
+    this.markersLayer.clearLayers();
+  
+    if (this.provinceLocations && this.provinceLocations[province]) {
+      const [lat, lng] = this.provinceLocations[province];
+  
+      const blueIcon = L.icon({
+        iconUrl: 'assets/gps_blue.png',
+        iconSize: [30, 45],
+        iconAnchor: [15, 45],
+        popupAnchor: [1, -34]
+      });
+  
+      // เพิ่มเฉพาะหมุดของจังหวัดที่เลือก
+      L.marker([lat, lng], { icon: blueIcon })
+        .addTo(this.markersLayer)
+        .bindPopup(province);
+  
+      this.map.setView([lat, lng], 8);
+    }
+  }
+  // เรียกใช้เมื่อ dropdown เปลี่ยนค่า
+  
+
+  private addAllProvinces() {
+    const blueIcon = L.icon({
+      iconUrl: 'assets/upload.png', 
+      iconSize: [30, 45],
+      iconAnchor: [15, 45],
+      popupAnchor: [1, -34]
+    });
+  
+    this.provinces.forEach(province => {
+      L.marker([province.lat, province.lng], { icon: blueIcon })
+        .addTo(this.markersLayer)
         .bindPopup(province.name);
     });
   }
@@ -78,4 +199,16 @@ export class HomeComponent  implements OnInit{
   toggleLegend(): void {
     this.legendVisible = !this.legendVisible;
   }
+  private showDropdowns(): void {
+    this.dropdowns['soil'] = true;
+    this.dropdowns['weather'] = true;
+    this.dropdowns['rice'] = true;
+  }
+  
+  private hideDropdowns(): void {
+    this.dropdowns['soil'] = false;
+    this.dropdowns['weather'] = false;
+    this.dropdowns['rice'] = false;
+  }
+  
 }

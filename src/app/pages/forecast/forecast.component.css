@@ -1,0 +1,239 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    background-color: #ccff99;
+    padding: 10px;
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .header a {
+    text-decoration: none;
+    color: black;
+    margin: 0 20px;
+  }
+  .header button {
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0); /* เปลี่ยนสีตัวอักษรเป็นสีเขียว */
+    font-size: 20px; /* ปรับขนาดตัวอักษร */
+    cursor: pointer;
+    padding: 5px 10px; /* ปรับระยะห่าง */
+    outline: none; /* ป้องกันเส้นขอบตอนคลิก */
+  }
+  
+  .header button:hover {
+    color: rgb(29, 245, 10); /* เปลี่ยนเป็นสีเขียวเข้มเมื่อ hover */
+  }
+  
+  .namepage {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 38px;
+    font-weight: bold;
+  }
+  
+  .container {
+    background-color: #99ff66;
+    display: flex;
+    width: auto;
+    height: auto;
+    padding: 30px;
+  }
+  
+  .left-panel {
+    width: 40%;
+    padding: 10px;
+  }
+  
+  .center-panel {
+    width: 20%;
+    padding: 20px;
+    background-color: #e6ffe6;
+    border-radius: 10px;
+  }
+  
+  .right-panel {
+    width: 40%;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .upload-box {
+    width: 300px; 
+    max-width: 100%;
+    text-align: center;
+    padding: 1px;
+    cursor: pointer;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+  
+  
+  .browse-btn {
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .browse-btn input[type="file"] {
+    position: absolute;
+    top: 150px;
+    left: 380px;
+    opacity: 0;
+    width: 25%;
+    height: 50%;
+    cursor: pointer;
+    
+}
+
+.upload-box i {
+  margin-right: 8px; /* ระยะห่างระหว่างไอคอนและข้อความ */
+  font-size: 60px; /* ขนาดไอคอน */
+  color: #426ef5; /* สีไอคอน */
+}
+  .upload-box p {
+    margin-top: 10px; /* เพิ่มระยะห่างระหว่างปุ่มและชื่อไฟล์ */
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .button {
+    background-color: #ffcc00;
+   
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-radius: 10px;
+  }
+  
+  .button-container {
+    background-color: #99ff66;
+    display: flex;
+    justify-content: center;
+    margin-bottom: auto;
+  }
+  
+  .download img {
+    margin-left: 5px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 50%;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  select:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 5px rgba(255, 204, 0, 0.8);
+  }
+  
+  option {
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  select option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  select:active {
+    background-color: #e6ffe6;
+  }
+  .uploaded-file-card {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    position: relative;
+    margin-top: 15px;
+}
+
+.file-icon img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.file-info {
+    flex-grow: 1;
+}
+
+.file-train-test {
+    font-size: 12px;
+    color: #666;
+}
+
+.progress-bar {
+    display: flex;
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.progress-train {
+    background: #ffcc00;
+    height: 100%;
+}
+
+.progress-test {
+    background: #0066ff;
+    height: 100%;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: red;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.table-responsive {
+  font-size: 14px; /* ลดขนาดตัวอักษรทั้งหมด */
+}
+
+.table th, 
+.table td {
+  font-size: 11px; /* ลดขนาดตัวอักษรของเซลล์ตาราง */
+  padding: 2px; /* ลดระยะห่างข้างในเซลล์ */
+  text-align: center; /* จัดให้อยู่ตรงกลาง */
+}
+
+.table th {
+  background-color: #46b749; /* เพิ่มสีพื้นหลังให้หัวตาราง */
+  color: white;
+}
+
+  

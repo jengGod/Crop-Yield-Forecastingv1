@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { MainComponent } from './pages/main/main.component';
+import { ForecastComponent } from './pages/forecast/forecast.component';
 import { HomeComponent } from './pages/home/home.component';
 export const routes: Routes = [
     {path: '', component: HomeComponent},
+    {path: 'forecast', component: ForecastComponent},
 ];

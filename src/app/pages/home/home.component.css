@@ -15,6 +15,19 @@ body {
     text-decoration: none;
     color: black;
   }
+  .header button {
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0); /* เปลี่ยนสีตัวอักษรเป็นสีเขียว */
+    font-size: 20px; /* ปรับขนาดตัวอักษร */
+    cursor: pointer;
+    padding: 5px 10px; /* ปรับระยะห่าง */
+    outline: none; /* ป้องกันเส้นขอบตอนคลิก */
+  }
+  
+  .header button:hover {
+    color: rgb(29, 245, 10); /* เปลี่ยนเป็นสีเขียวเข้มเมื่อ hover */
+  }
   .controls {
     display: flex;
     justify-content: space-between;

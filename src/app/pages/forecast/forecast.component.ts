@@ -107,10 +107,10 @@ home(arg0: string) {
 
 
   submitForm() {
-    console.log('📩 ส่งแบบฟอร์ม:', this.form.value);
-    console.log('📂 ไฟล์ที่อัปโหลด:', this.uploadedFile);
-    console.log('📊 คอลัมน์:', this.fileColumns);
-    console.log('📄 แถวข้อมูล:', this.fileRows);
+    console.log('ส่งแบบฟอร์ม:', this.form.value);
+    console.log('ไฟล์ที่อัปโหลด:', this.uploadedFile);
+    console.log('คอลัมน์:', this.fileColumns);
+    console.log('แถวข้อมูล:', this.fileRows);
   }
 }
 
